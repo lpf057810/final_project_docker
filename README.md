@@ -16,6 +16,7 @@ The R code uses the `ggplot2` library to visualize a raw PPG signal with detecte
 1. Make sure you have installed the `renv` package (`install.packages("renv")`)
 2. Use `make install` under the main folder to synchronize packages
 3. Use `docker build -t project_image .` under the main folder to build the project image
-4. Use `make report/report.html` to get the automated version of the image
-5. Here is my link to the Docker hub image : https://hub.docker.com/repository/docker/lpf057810/project_image/general
+4. Use `make project_image` to get the automated version of the image
+5.  Use `make report/report.html` to create a `report` folder  mounted to the `project` folder in the container. When the run command finishes, the `report` folder will contain the compiled report.
+6. Here is my link to the Docker hub image : https://hub.docker.com/repository/docker/lpf057810/project_image/general
    
