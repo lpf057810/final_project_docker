@@ -1,0 +1,59 @@
+---
+title: "PPG beat detection"
+author: "Pengfei Lou"
+date: "2023-12-30"
+output: html_document
+---
+
+------------------------------------------------------------------------
+
+## 1.Introduction:
+  Photoplethysmography (PPG) functions by utilizing light to measure changes in blood volume beneath the skin. The process involves directing light into the skin to generate PPG signals, which consist of a DC component representing average blood volume and an AC component reflecting pulsatile changes associated with the cardiac cycle. The mechanism captures variations in blood volume caused by heartbeats, with each peak in the AC component corresponding to an individual heartbeat. Signal processing techniques, including filtering and peak detection, enhance the accuracy of the obtained data.
+
+  PPG is chosen for heart rate analysis due to its non-invasiveness, making it comfortable and less interfering for individuals. It is a cost-effective and accessible method, widely adopted in clinical and consumer settings. The real-time nature of PPG signals enables continuous monitoring, offering a dynamic assessment of heart rate variations. PPG is particularly suitable for wearable devices, allowing individuals to monitor their heart rate continuously without discomfort. The combination of non-invasiveness, accessibility, and continuous monitoring capabilities makes PPG the preferred choice for heart rate analysis over other methods that may involve more invasive procedures or lack real-time capabilities.
+
+
+## 2.Methods:
+
+This report uses R to detect the beat and peak of signal value from a commercial wearable device called the bangle.js. The dataset used in this report is  called 'bangle.csv' has two columns and 6781 observations which are 'timestamp_ms' column in  million-seconds and 'value' column representing 124 seconds' PPG signal values. The first point of the time column in the PPG dataset is set to 0 and subsequent values are changed accordingly. For large dataset, the frequency of PPG signal value is transferred from 100Hz to 75Hz.
+
+
+The R code uses the `ggplot2` library to visualize a raw PPG signal with detected peaks. The dataset is read from a CSV file and undergoes preprocessing, including baseline setting and timestamp conversion. The resulting plot displays the raw PPG signal over time, with red points indicating detected peaks. 
+```{r}
+here::i_am("report.Rmd")
+```
+
+## 3.Results:
+
+**Using R detecting Raw PPG signal peaks**
+```{r}
+readRDS(
+  here::here("output/table_one.rds")
+)
+```
+
+
+```{r}
+knitr::include_graphics(
+  here::here("output/scatterplot.png")
+)
+```
+
+Every upward deflection can be called as systolic peak which indicates maximum blood volume in the superficial vessels near the skin during the contraction of the heart. In reverse, the diastolic trough reflects minimum blood volume during the contraction of the heart. By observing the pattern of these two different types of peaks could help conclude whether there is a specific physiological event or change in the wearable device. 
+
+What can be seen in this picture is that the whole pattern of the PPG signal value in the first 120 seconds is decreasing but it is not strictly descending and it shows a sudden surge after 120 seconds. Thus, it is possible that the whole pattern is affected by both physiological event and change in the wearable device. 
+
+First,the initial decrease could be influenced by wearable device-related factors such as sensor initialization, calibration, or default settings. During this phase, the device may be adjusting or stabilizing, resulting in a decrease in the PPG signal. This may not strictly represent a physiological event but rather the device settling into the monitoring state.
+
+Second,the subsequent variations in the PPG signal, including a sudden increase, may be related to both physiological fluctuations and the device's sensitivity to these changes. Physiological events, such as changes in blood flow due to activity or stress, could contribute to the observed variations. At the same time, the device's response to these physiological changes and its adjustment processes might also influence the recorded values.
+
+Third,the overall non-strictly decreasing pattern could be influenced by technical artifacts, noise, or baseline drift introduced by the wearable device. These factors may impact the stability of the PPG signal and contribute to variation.
+
+
+## 4.Discussion:
+
+Filtering the Signal:
+Filtering the PPG signal is a crucial preprocessing step. The `Preprocess` class is used to filter out noise and unwanted frequency components. Filtering helps enhance the signal quality by removing artifacts and irrelevant information, ensuring that the subsequent analysis focuses on the essential cardiovascular components.
+
+Computing Derivatives:
+The PPG signal undergoes differentiation to compute its first, second, and third derivatives (`vpg`, `apg`, `jpg`). These derivatives capture the rate of change of the PPG signal, providing information about its slope and curvature. Derivatives are valuable for highlighting specific features in the signal associated with physiological events, such as peaks and valleys, which are indicative of heartbeat activity.
