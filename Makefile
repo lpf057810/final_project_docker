@@ -14,4 +14,4 @@ RENVFILES=renv.lock renv/activate.R renv/settings.json
 
 project_image: Dockerfile $(PROJECTFILES) $(RENVFILES)
 report/report.html: project_image 
-	docker run -v "/$$(pwd)/report":/project/report project_image
+	docker run -v "/$$(pwd)/report":/project/report lpf057810/project_image:latest
