@@ -19,5 +19,6 @@ The R code uses the `ggplot2` library to visualize a raw PPG signal with detecte
 4. Use `docker build -t project_image .` under the main folder to build the project image
 5. Use `make project_image` to get the automated version of the image
 6.  Use `make report/report.html` to create a `report` folder  mounted to the `project` folder in the container. When the run command finishes, the `report` folder will contain the compiled report.
-7. Here is my link to the Docker hub image: https://hub.docker.com/repository/docker/lpf057810/project_image/general
+7.  You can use `make clean` to clean the output
+8. Here is my link to the Docker hub image: https://hub.docker.com/repository/docker/lpf057810/project_image/general
    
